@@ -26,7 +26,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
             data[key] = isNaN(score) ? 0 : score;
         });
 
-        fetch('https://nucalapp24-20166d95612a.herokuapp.com/', { // Atualize com o URL do seu Heroku
+        // Adiciona data e hora da submissão
+        data['timestamp'] = new Date().toISOString();
+
+        fetch('https://nucalapp24-20166d95612a.herokuapp.com/submit', { // Atualize com o URL do seu Heroku
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -36,13 +39,31 @@ document.addEventListener('DOMContentLoaded', (event) => {
         .then(response => response.json())
         .then(result => {
             document.getElementById('total_score').value = result.total_score;
+            printResult(data);
         })
         .catch(error => {
             console.error('Error:', error);
         });
     }
 
-    // Attach the event listeners
+    function printResult(data) {
+        let printWindow = window.open('', '', 'height=600,width=800');
+        printWindow.document.write('<html><head><title>Resultado do Questionário</title>');
+        printWindow.document.write('<link rel="stylesheet" href="style.css" type="text/css" />');
+        printWindow.document.write('</head><body>');
+        printWindow.document.write('<h1>Resultado do Questionário de Elegibilidade</h1>');
+        printWindow.document.write('<p>Data: ' + new Date(data.timestamp).toLocaleString() + '</p>');
+        Object.keys(data).forEach(key => {
+            if (key !== 'timestamp') {
+                printWindow.document.write('<p>' + key + ': ' + data[key] + '</p>');
+            }
+        });
+        printWindow.document.write('<p>Pontuação Total: ' + data.total_score + '</p>');
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        printWindow.print();
+    }
+
     document.querySelectorAll('select').forEach(select => {
         select.addEventListener('change', updateScore);
     });

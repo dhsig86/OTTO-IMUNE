@@ -1,32 +1,17 @@
-from flask import Flask, request, jsonify
-from models import db, Questionnaire
-from config import Config
+from flask import Blueprint, request, jsonify
+from models import db, Result
 
-app = Flask(__name__)
-app.config.from_object(Config)
-db.init_app(app)
+main = Blueprint('main', __name__)
 
-@app.route('/')
-def home():
-    return "Servidor Flask está rodando!"
-
-@app.route('/submit', methods=['POST'])
+@main.route('/submit', methods=['POST'])
 def submit():
     data = request.json
-    total_score = sum([
-        data['snot22'], data['vas'], data['olfactory_test'], 
-        data['previous_surgeries'], data['surgery_contraindication'],
-        data['corticosteroid_use'], data['polyp_size'], data['sinus_opacification'],
-        data['asthma'], data['nsaid_intolerance'], data['serum_eosinophilia'],
-        data['tissue_eosinophilia']
-    ])
-    
-    questionnaire = Questionnaire(
+    total_score = sum(data.values())
+    result = Result(
         snot22=data['snot22'],
         vas=data['vas'],
         olfactory_test=data['olfactory_test'],
         previous_surgeries=data['previous_surgeries'],
-        surgery_contraindication=data['surgery_contraindication'],
         corticosteroid_use=data['corticosteroid_use'],
         polyp_size=data['polyp_size'],
         sinus_opacification=data['sinus_opacification'],
@@ -36,11 +21,6 @@ def submit():
         tissue_eosinophilia=data['tissue_eosinophilia'],
         total_score=total_score
     )
-    
-    db.session.add(questionnaire)
+    db.session.add(result)
     db.session.commit()
-    
-    return jsonify({'total_score': total_score})
-
-if __name__ == '__main__':
-    app.run(debug=True)
+    return jsonify({"total_score": total_score})
