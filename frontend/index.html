@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionário de Elegibilidade</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Questionário de Elegibilidade</h1>
+        <form id="eligibility-form">
+            <!-- Formulário para os itens do questionário -->
+            <div class="form-group">
+                <label for="snot22">SNOT-22</label>
+                <input type="number" id="snot22" name="snot22" min="0" max="2">
+            </div>
+            <div class="form-group">
+                <label for="vas">VAS</label>
+                <input type="number" id="vas" name="vas" min="0" max="2">
+            </div>
+            <div class="form-group">
+                <label for="olfactory_test">Teste de Olfato</label>
+                <input type="number" id="olfactory_test" name="olfactory_test" min="0" max="2">
+            </div>
+            <!-- Adicionar os outros campos do questionário -->
+            <div class="form-group">
+                <label for="total_score">Pontuação Total</label>
+                <input type="number" id="total_score" name="total_score" readonly>
+            </div>
+            <button type="button" onclick="submitForm()">Enviar</button>
+        </form>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
