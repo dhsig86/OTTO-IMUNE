@@ -1,36 +1,116 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Questionário de Elegibilidade</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="container">
-        <h1>Questionário de Elegibilidade</h1>
-        <form id="eligibility-form">
-            <!-- Formulário para os itens do questionário -->
-            <div class="form-group">
-                <label for="snot22">SNOT-22</label>
-                <input type="number" id="snot22" name="snot22" min="0" max="2">
-            </div>
-            <div class="form-group">
-                <label for="vas">VAS</label>
-                <input type="number" id="vas" name="vas" min="0" max="2">
-            </div>
-            <div class="form-group">
-                <label for="olfactory_test">Teste de Olfato</label>
-                <input type="number" id="olfactory_test" name="olfactory_test" min="0" max="2">
-            </div>
-            <!-- Adicionar os outros campos do questionário -->
-            <div class="form-group">
-                <label for="total_score">Pontuação Total</label>
-                <input type="number" id="total_score" name="total_score" readonly>
-            </div>
-            <button type="button" onclick="submitForm()">Enviar</button>
-        </form>
-    </div>
-    <script src="script.js"></script>
-</body>
-</html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Questionário de Elegibilidade</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="container">
+            <h1>Questionário de Elegibilidade</h1>
+            <form id="eligibility-form">
+                <!-- Sub-Item: Symptom Severity -->
+                <div class="form-group">
+                    <label for="snot22">SNOT-22 (validado para Português Brasileiro)</label>
+                    <select id="snot22" name="snot22" onchange="updateScore()">
+                        <option value="0">< 20 (0 pontos)</option>
+                        <option value="1">20-50 (1 ponto)</option>
+                        <option value="2">> 50 (2 pontos)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="vas">VAS para obstrução/congestão nasal ou rinorreia</label>
+                    <select id="vas" name="vas" onchange="updateScore()">
+                        <option value="0">< 3 (0 pontos)</option>
+                        <option value="1">3-7 (1 ponto)</option>
+                        <option value="2">> 7 (2 pontos)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="olfactory_test">Teste de Olfato (UPSIT/Connecticut)</label>
+                    <select id="olfactory_test" name="olfactory_test" onchange="updateScore()">
+                        <option value="0">< 3 (normosmia ou hiposmia leve) (0 pontos)</option>
+                        <option value="1">3-7 (hiposmia moderada) (1 ponto)</option>
+                        <option value="2">> 7 (hiposmia grave ou anosmia) (2 pontos)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="previous_surgeries">Número de cirurgias anteriores</label>
+                    <select id="previous_surgeries" name="previous_surgeries" onchange="updateScore()">
+                        <option value="0">0 (0 pontos)</option>
+                        <option value="1">1 (1 ponto)</option>
+                        <option value="2">2 (2 pontos)</option>
+                        <option value="3">>= 3 ou contraindicação para cirurgia (3 pontos)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="corticosteroid_use">Uso de CS sistêmico/ano</label>
+                    <select id="corticosteroid_use" name="corticosteroid_use" onchange="updateScore()">
+                        <option value="0">0 (0 pontos)</option>
+                        <option value="1">1 ou 2 (1 ponto)</option>
+                        <option value="2">> 2 (2 pontos)</option>
+                    </select>
+                </div>
+                <!-- Sub-Item: Extent of the Disease -->
+                <div class="form-group">
+                    <label for="polyp_size">Tamanho dos pólipos (Nasal Polyp Score - bilateral)</label>
+                    <select id="polyp_size" name="polyp_size" onchange="updateScore()">
+                        <option value="0">0 (0 pontos)</option>
+                        <option value="1">1-2 (1 ponto)</option>
+                        <option value="2">3-4 (2 pontos)</option>
+                        <option value="3">>= 5 (3 pontos)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="sinus_opacification">Opacificação sinusal (Lund-Mackay - bilateral)</label>
+                    <select id="sinus_opacification" name="sinus_opacification" onchange="updateScore()">
+                        <option value="0">0-4 (0 pontos)</option>
+                        <option value="1">5-8 (1 ponto)</option>
+                        <option value="2">9-16 (2 pontos)</option>
+                        <option value="3">> 16 (3 pontos)</option>
+                    </select>
+                </div>
+                <!-- Sub-Item: Comorbidities -->
+                <div class="form-group">
+                    <label for="asthma">Asma</label>
+                    <select id="asthma" name="asthma" onchange="updateScore()">
+                        <option value="0">Não (0 pontos)</option>
+                        <option value="1">Leve (1 ponto)</option>
+                        <option value="2">Moderada/grave (2 pontos)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="nsaid_intolerance">Intolerância a AINEs</label>
+                    <select id="nsaid_intolerance" name="nsaid_intolerance" onchange="updateScore()">
+                        <option value="0">Não (0 pontos)</option>
+                        <option value="1">Sim (1 ponto)</option>
+                    </select>
+                </div>
+                <!-- Sub-Item: Biomarkers -->
+                <div class="form-group">
+                    <label for="serum_eosinophilia">Eosinofilia sérica</label>
+                    <select id="serum_eosinophilia" name="serum_eosinophilia" onchange="updateScore()">
+                        <option value="0">< 150 (0 pontos)</option>
+                        <option value="1">150-300 (1 ponto)</option>
+                        <option value="2">> 300 (2 pontos)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="tissue_eosinophilia">Eosinofilia tecidual</label>
+                    <select id="tissue_eosinophilia" name="tissue_eosinophilia" onchange="updateScore()">
+                        <option value="0">< 10 (0 pontos)</option>
+                        <option value="1">10-43 (1 ponto)</option>
+                        <option value="2">> 43 (2 pontos)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="total_score">Pontuação Total</label>
+                    <input type="number" id="total_score" name="total_score" readonly>
+                </div>
+                <button type="button" onclick="submitForm()">Enviar</button>
+            </form>
+        </div>
+        <script src="script.js"></script>
+    </body>
+    </html>

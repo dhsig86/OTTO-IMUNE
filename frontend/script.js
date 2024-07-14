@@ -1,3 +1,15 @@
+function updateScore() {
+    const form = document.getElementById('eligibility-form');
+    const formData = new FormData(form);
+    
+    let totalScore = 0;
+    formData.forEach((value, key) => {
+        totalScore += parseInt(value);
+    });
+
+    document.getElementById('total_score').value = totalScore;
+}
+
 function submitForm() {
     const form = document.getElementById('eligibility-form');
     const formData = new FormData(form);

@@ -27,10 +27,11 @@ label {
     margin-bottom: 5px;
 }
 
-input {
+select, input {
     width: 100%;
     padding: 8px;
     box-sizing: border-box;
+    margin-bottom: 10px;
 }
 
 button {
