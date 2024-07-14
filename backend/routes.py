@@ -1,6 +1,10 @@
 from flask import request, jsonify
+from flask_cors import CORS  # Certifique-se de importar o CORS
 from app import app, db
 from models import FormData  # Assumindo que você tem um modelo chamado FormData
+
+# Inicializando CORS
+CORS(app)
 
 @app.route('/submit', methods=['POST'])
 def submit_form():

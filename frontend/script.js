@@ -16,7 +16,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
         document.getElementById('total_score').value = totalScore;
     }
 
-    function submitForm() {
+    function submitForm(event) {
+        event.preventDefault();  // Prevent the default form submission
+
         const form = document.getElementById('eligibility-form');
         const formData = new FormData(form);
 
@@ -36,7 +38,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
             },
             body: JSON.stringify(data)
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
         .then(result => {
             document.getElementById('total_score').value = result.total_score;
             printResult(data);
