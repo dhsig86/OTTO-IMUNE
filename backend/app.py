@@ -5,15 +5,12 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-# Carregando a configuração da classe Config
 app.config.from_object('backend.config.Config')
 
-# Verificar string de conexão do banco de dados
 print("Database URI:", app.config['SQLALCHEMY_DATABASE_URI'])
 
 db = SQLAlchemy(app)
 
-# Model example
 class Submission(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     snot22 = db.Column(db.Integer)
@@ -30,7 +27,7 @@ class Submission(db.Model):
     total_score = db.Column(db.Integer)
     timestamp = db.Column(db.String)
 
-@app.route('/', methods=['POST'])
+@app.route('/submit', methods=['POST'])
 def submit():
     try:
         data = request.get_json()
