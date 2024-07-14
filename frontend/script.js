@@ -1,8 +1,9 @@
 document.addEventListener('DOMContentLoaded', (event) => {
-    function updateScore() {
+    function calculateTotalScore() {
         const form = document.getElementById('eligibility-form');
-        const formData = new FormData(form);
+        if (!form) return;
 
+        const formData = new FormData(form);
         let totalScore = 0;
 
         // Convert string values to integers and sum up the scores
@@ -13,16 +14,21 @@ document.addEventListener('DOMContentLoaded', (event) => {
             }
         });
 
-        document.getElementById('total_score').value = totalScore;
+        const totalScoreElement = document.getElementById('total_score');
+        if (totalScoreElement) {
+            totalScoreElement.value = totalScore;
+        }
     }
 
     function submitForm(event) {
         event.preventDefault();  // Prevent the default form submission
 
         const form = document.getElementById('eligibility-form');
-        const formData = new FormData(form);
+        if (!form) return;
 
+        const formData = new FormData(form);
         const data = {};
+
         formData.forEach((value, key) => {
             const score = parseInt(value, 10);
             data[key] = isNaN(score) ? 0 : score;
@@ -31,7 +37,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         // Adiciona data e hora da submissão
         data['timestamp'] = new Date().toISOString();
 
-        fetch('https://nucalapp24-20166d95612a.herokuapp.com/submit', { // Atualize com o URL do seu Heroku
+        fetch('https://nucalapp24-20166d95612a.herokuapp.com/', { // Atualize com o URL do seu Heroku
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -45,7 +51,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
             return response.json();
         })
         .then(result => {
-            document.getElementById('total_score').value = result.total_score;
+            const totalScoreElement = document.getElementById('total_score');
+            if (totalScoreElement) {
+                totalScoreElement.value = result.total_score;
+            }
             printResult(data);
         })
         .catch(error => {
@@ -71,8 +80,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
         printWindow.print();
     }
 
-    document.querySelectorAll('select').forEach(select => {
-        select.addEventListener('change', updateScore);
-    });
-    document.querySelector('button').addEventListener('click', submitForm);
+    const calculateButton = document.getElementById('calculate-button');
+    if (calculateButton) {
+        calculateButton.addEventListener('click', calculateTotalScore);
+    }
+
+    const submitButton = document.getElementById('submit-button');
+    if (submitButton) {
+        submitButton.addEventListener('click', submitForm);
+    }
 });
