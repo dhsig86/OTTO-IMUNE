@@ -9,7 +9,7 @@ app.config.from_object('backend.config.Config')
 
 db = SQLAlchemy(app)
 
-from backend import routes  # Certifique-se de que o caminho esteja correto
+from backend import routes
 
 if __name__ == '__main__':
     app.run()

@@ -3,7 +3,6 @@ from flask_cors import CORS
 from backend.app import app, db
 from backend.models import FormData
 
-# Inicializando CORS
 CORS(app)
 
 @app.route('/submit', methods=['POST'])
