@@ -22,10 +22,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         const data = {};
         formData.forEach((value, key) => {
-            data[key] = parseInt(value, 10);
+            const score = parseInt(value, 10);
+            data[key] = isNaN(score) ? 0 : score;
         });
 
-        fetch('http://localhost:5000/submit', {
+        fetch('https://nucalapp24-20166d95612a.herokuapp.com/', { // Atualize com o URL do seu Heroku
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
