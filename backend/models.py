@@ -1,4 +1,4 @@
-from app import db
+from backend.app import db
 
 class FormData(db.Model):
     id = db.Column(db.Integer, primary_key=True)

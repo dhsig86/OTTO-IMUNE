@@ -14,7 +14,7 @@ print("Database URI:", app.config['SQLALCHEMY_DATABASE_URI'])
 db = SQLAlchemy(app)
 
 # Importando routes para registrar as rotas
-import backend.routes  # Pylance, this import is required to register routes
+import backend.routes  # noqa: F401
 
 if __name__ == '__main__':
     app.run()
