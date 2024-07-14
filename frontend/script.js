@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         // Adiciona data e hora da submissão
         data['timestamp'] = new Date().toISOString();
 
-        fetch('https://nucalapp24-20166d95612a.herokuapp.com/', { // Atualize com o URL do seu Heroku
+        fetch('https://nucalapp24-20166d95612a.herokuapp.com/submit', { // Atualize com o URL do seu Heroku
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -80,6 +80,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
         printWindow.print();
     }
 
+    function resetForm() {
+        const form = document.getElementById('eligibility-form');
+        if (form) {
+            form.reset();
+        }
+        const totalScoreElement = document.getElementById('total_score');
+        if (totalScoreElement) {
+            totalScoreElement.value = '';
+        }
+    }
+
     const calculateButton = document.getElementById('calculate-button');
     if (calculateButton) {
         calculateButton.addEventListener('click', calculateTotalScore);
@@ -88,5 +99,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const submitButton = document.getElementById('submit-button');
     if (submitButton) {
         submitButton.addEventListener('click', submitForm);
+    }
+
+    const resetButton = document.getElementById('reset-button');
+    if (resetButton) {
+        resetButton.addEventListener('click', resetForm);
     }
 });
