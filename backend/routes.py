@@ -1,7 +1,7 @@
 from flask import request, jsonify
-from flask_cors import CORS  # Certifique-se de importar o CORS
-from app import app, db
-from models import FormData  # Assumindo que você tem um modelo chamado FormData
+from flask_cors import CORS
+from backend.app import app, db
+from backend.models import FormData
 
 # Inicializando CORS
 CORS(app)
