@@ -9,7 +9,8 @@ app.config.from_object('config.Config')
 db = SQLAlchemy(app)
 
 # Importar rotas após inicialização do app e db
-from routes import *from flask import Flask
+from routes import *
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 
