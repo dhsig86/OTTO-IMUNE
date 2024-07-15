@@ -1,38 +1,30 @@
+import os
+import sys
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from flask_cors import CORS
 
-app = Flask(__name__)
-CORS(app)
+# Adiciona o caminho 'backend' ao sys.path
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
+app = Flask(__name__)
 app.config.from_object('backend.config.Config')
 
-print("Database URI:", app.config['SQLALCHEMY_DATABASE_URI'])
-
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
+CORS(app)
 
-class Submission(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    snot22 = db.Column(db.Integer)
-    vas = db.Column(db.Integer)
-    olfactory_test = db.Column(db.Integer)
-    previous_surgeries = db.Column(db.Integer)
-    corticosteroid_use = db.Column(db.Integer)
-    polyp_size = db.Column(db.Integer)
-    sinus_opacification = db.Column(db.Integer)
-    asthma = db.Column(db.Integer)
-    nsaid_intolerance = db.Column(db.Integer)
-    serum_eosinophilia = db.Column(db.Integer)
-    tissue_eosinophilia = db.Column(db.Integer)
-    total_score = db.Column(db.Integer)
-    timestamp = db.Column(db.String)
+# Importa os modelos após a inicialização do db
+import backend.models
 
 @app.route('/submit', methods=['POST'])
 def submit():
     try:
         data = request.get_json()
+        app.logger.debug(f"Received data: {data}")
 
-        new_submission = Submission(
+        form_data = backend.models.FormData(
             snot22=data.get('snot22', 0),
             vas=data.get('vas', 0),
             olfactory_test=data.get('olfactory_test', 0),
@@ -44,18 +36,17 @@ def submit():
             nsaid_intolerance=data.get('nsaid_intolerance', 0),
             serum_eosinophilia=data.get('serum_eosinophilia', 0),
             tissue_eosinophilia=data.get('tissue_eosinophilia', 0),
-            total_score=data.get('total_score', 0),
-            timestamp=data.get('timestamp')
+            total_score=data.get('total_score', 0)
         )
 
-        db.session.add(new_submission)
+        db.session.add(form_data)
         db.session.commit()
+        app.logger.debug(f"Form data saved: {form_data}")
 
-        return jsonify({"total_score": new_submission.total_score}), 200
-
+        return jsonify({'message': 'Data submitted successfully', 'total_score': form_data.total_score}), 201
     except Exception as e:
-        print(f"Error occurred: {e}")
-        return jsonify({"error": "Internal Server Error"}), 500
+        app.logger.error(f"Error during submission: {e}")
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

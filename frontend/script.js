@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         const formData = new FormData(form);
         let totalScore = 0;
 
-        // Convert string values to integers and sum up the scores
         formData.forEach((value, key) => {
             const score = parseInt(value, 10);
             if (!isNaN(score)) {
@@ -37,7 +36,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         // Adiciona data e hora da submissão
         data['timestamp'] = new Date().toISOString();
 
-        fetch('https://nucalapp24-20166d95612a.herokuapp.com/submit', { // Atualize com o URL do seu Heroku
+        fetch('https://nucalapp24.herokuapp.com/submit', { // Atualize com o URL do seu Heroku
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -55,7 +54,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             if (totalScoreElement) {
                 totalScoreElement.value = result.total_score;
             }
-            printResult(data);
+            printResult(result);
         })
         .catch(error => {
             console.error('Error:', error);
@@ -99,6 +98,27 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const submitButton = document.getElementById('submit-button');
     if (submitButton) {
         submitButton.addEventListener('click', submitForm);
+    }
+
+    const printButton = document.getElementById('print-button');
+    if (printButton) {
+        printButton.addEventListener('click', () => {
+            const form = document.getElementById('eligibility-form');
+            if (!form) return;
+
+            const formData = new FormData(form);
+            const data = {};
+
+            formData.forEach((value, key) => {
+                const score = parseInt(value, 10);
+                data[key] = isNaN(score) ? 0 : score;
+            });
+
+            data['timestamp'] = new Date().toISOString();
+            data['total_score'] = parseInt(document.getElementById('total_score').value, 10) || 0;
+
+            printResult(data);
+        });
     }
 
     const resetButton = document.getElementById('reset-button');
