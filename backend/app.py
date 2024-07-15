@@ -8,8 +8,10 @@ from flask_cors import CORS
 # Adiciona o caminho 'backend' ao sys.path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-app = Flask(__name__)
+# Configuração do Flask para usar templates e arquivos estáticos na pasta 'frontend'
+app = Flask(__name__, static_folder='frontend', template_folder='frontend')
 app.config.from_object('backend.config.Config')
+
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)

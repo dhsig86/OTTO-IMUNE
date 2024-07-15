@@ -64,18 +64,22 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     function displayResult(totalScore) {
         const resultDiv = document.getElementById('result');
-        if (!resultDiv) return;
+        const resultMessage = document.getElementById('result-message');
+        if (!resultDiv || !resultMessage) return;
 
         if (totalScore >= 14) {
-            resultDiv.textContent = "Tem indicação para uso do Imunobiológico";
+            resultDiv.textContent = totalScore;
             resultDiv.classList.remove('red');
             resultDiv.classList.add('green');
+            resultMessage.textContent = "Tem indicação para uso do Imunobiológico";
         } else {
-            resultDiv.textContent = "Não tem indicação";
+            resultDiv.textContent = totalScore;
             resultDiv.classList.remove('green');
             resultDiv.classList.add('red');
+            resultMessage.textContent = "Imunobiológico não indicado no momento";
         }
         resultDiv.classList.remove('hidden');
+        resultMessage.classList.remove('hidden');
     }
 
     function printResult(data) {
@@ -106,8 +110,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
             totalScoreElement.value = '';
         }
         const resultDiv = document.getElementById('result');
+        const resultMessage = document.getElementById('result-message');
         if (resultDiv) {
             resultDiv.classList.add('hidden');
+        }
+        if (resultMessage) {
+            resultMessage.classList.add('hidden');
         }
     }
 

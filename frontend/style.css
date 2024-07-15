@@ -70,16 +70,23 @@ button:hover {
     background-color: #F57C00; /* Laranja */
 }
 
-.result {
+/* Adicionar esta parte ao CSS existente */
+
+.result-container {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 20px;
+}
+
+.result {
     font-size: 24px;
+    font-weight: bold;
     color: #2c3e50;  /* Azul marinho */
     padding: 20px;
-    margin-top: 20px;
     border-radius: 8px;
     text-align: center;
+    width: 100%;
 }
 
 .result.green {
@@ -92,4 +99,11 @@ button:hover {
 
 .hidden {
     display: none;
+}
+
+#result-message {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
 }
