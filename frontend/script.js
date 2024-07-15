@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         printWindow.document.write('<p>Data: ' + new Date(data.timestamp).toLocaleString() + '</p>');
         Object.keys(data).forEach(key => {
             if (key !== 'timestamp') {
-                printWindow.document.write('<p>' + key + ': ' + data[key] + '</p>');
+                printWindow.document.write('<p>' + document.querySelector(`label[for=${key}]`).innerText + ': ' + data[key] + '</p>');
             }
         });
         printWindow.document.write('<p>Pontuação Total: ' + data.total_score + '</p>');
@@ -146,5 +146,67 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const resetButton = document.getElementById('reset-button');
     if (resetButton) {
         resetButton.addEventListener('click', resetForm);
+    }
+
+    // Popup functionality
+    function showPopup(imageSrc) {
+        const popupContainer = document.getElementById('popup-container');
+        const popupImage = document.getElementById('popup-image');
+        if (popupContainer && popupImage) {
+            popupImage.src = imageSrc;
+            popupContainer.classList.remove('hidden');
+        }
+    }
+
+    const openEvaPopup = document.getElementById('open-eva-popup');
+    if (openEvaPopup) {
+        openEvaPopup.addEventListener('click', () => {
+            showPopup('images/eva.png');  // Certifique-se de que a imagem esteja na pasta correta
+        });
+    }
+
+    const openPolypPopup = document.getElementById('open-polyp-popup');
+    if (openPolypPopup) {
+        openPolypPopup.addEventListener('click', () => {
+            showPopup('images/polyp.png');  // Certifique-se de que a imagem esteja na pasta correta
+        });
+    }
+
+    const openLundmckayPopup = document.getElementById('open-lundmckay-popup');
+    if (openLundmckayPopup) {
+        openLundmckayPopup.addEventListener('click', () => {
+            showPopup('images/lundmckay.png');  // Certifique-se de que a imagem esteja na pasta correta
+        });
+    }
+
+    const closePopup = document.getElementById('close-popup');
+    if (closePopup) {
+        closePopup.addEventListener('click', () => {
+            const popupContainer = document.getElementById('popup-container');
+            if (popupContainer) {
+                popupContainer.classList.add('hidden');
+            }
+        });
+    }
+
+    // Help Popup functionality
+    const helpButton = document.getElementById('help-button');
+    if (helpButton) {
+        helpButton.addEventListener('click', () => {
+            const helpPopupContainer = document.getElementById('help-popup-container');
+            if (helpPopupContainer) {
+                helpPopupContainer.classList.remove('hidden');
+            }
+        });
+    }
+
+    const closeHelpPopup = document.getElementById('close-help-popup');
+    if (closeHelpPopup) {
+        closeHelpPopup.addEventListener('click', () => {
+            const helpPopupContainer = document.getElementById('help-popup-container');
+            if (helpPopupContainer) {
+                helpPopupContainer.classList.add('hidden');
+            }
+        });
     }
 });

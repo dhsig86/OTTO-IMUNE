@@ -9,7 +9,10 @@
 <body>
     <div class="container">
         <h1>Questionário de Elegibilidade</h1>
-        
+        <h3>para uso de Imunobiológicos </h3>
+        <h4>na Rinossinusite Crônica com Polipose Nasossinusal</h4>
+        <button type="button" id="help-button">Ajuda</button>
+
         <form id="eligibility-form">
             <!-- Sub-Item: Severidade dos Sintomas -->
             <div class="sub-item">
@@ -27,7 +30,9 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="vas">EVA (Escala Visual Analogia de Obstrução nasal/Rinorréia)</label>
+                    <label for="vas">EVA (Escala Visual Analogia de Obstrução nasal/Rinorréia)
+                        <span id="open-eva-popup" class="info-icon">&#9432;</span>
+                    </label>
                     <select id="vas" name="vas">
                         <option value="0">&lt; 3 (0 pontos)</option>
                         <option value="1">3-7 (1 ponto)</option>
@@ -65,7 +70,9 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="polyp_size">Tamanho dos pólipos (Nasal Polyp Score - bilateral)</label>
+                    <label for="polyp_size">Tamanho dos pólipos (Nasal Polyp Score - bilateral)
+                        <span id="open-polyp-popup" class="info-icon">&#9432;</span>
+                    </label>
                     <select id="polyp_size" name="polyp_size">
                         <option value="0">0 (0 pontos)</option>
                         <option value="1">1-2 (1 ponto)</option>
@@ -74,7 +81,9 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="sinus_opacification">Opacificação sinusal (Lund-Mackay - bilateral)</label>
+                    <label for="sinus_opacification">Opacificação sinusal (Lund-Mackay - bilateral)
+                        <span id="open-lundmckay-popup" class="info-icon">&#9432;</span>
+                    </label>
                     <select id="sinus_opacification" name="sinus_opacification">
                         <option value="0">0-4 (0 pontos)</option>
                         <option value="1">5-8 (1 ponto)</option>
@@ -136,11 +145,39 @@
                 <button type="button" id="submit-button">Enviar</button>
                 <button type="button" id="print-button">Imprimir</button>
                 <button type="button" id="reset-button">Resetar</button>
+                <button type="button" id="help-button">Ajuda</button>
             </div>
             <div id="result" class="result hidden"></div>
             <div id="result-message" class="hidden"></div>
         </form>
+        <p class="reference">Guideline for the use of immunobiologicals in chronic rhinosinusitis with nasal polyps (CRSWNP) in Brazil</p>
+    
+        <footer>
+        <p>Criado pelo Dr. Dario Hart Signorini</p>
+    </footer>
+    
+    <div id="popup-container" class="popup hidden">
+        <div class="popup-content">
+            <span id="close-popup" class="close-popup">&times;</span>
+            <img id="popup-image" src="" alt="Popup Image">
+        </div>
     </div>
+    <div id="help-popup-container" class="popup hidden">
+        <div class="popup-content">
+            <span id="close-help-popup" class="close-popup">&times;</span>
+            <p>Passo a passo:</p>
+            <ul>
+                <li>Preencha todos os campos do formulário.</li>
+                <li>Clique em "Calcular" para calcular a pontuação total.</li>
+                <li>Clique em "Enviar" para enviar os dados.</li>
+                <li>Use o botão "Imprimir" para imprimir os resultados.</li>
+                <li>Use o botão "Resetar" para limpar o formulário.</li>
+                <li>Clique nos títulos para acessar facilidades (links, imagens, calculadoras).</li>
+                <li>Válido para o SNOT-22, EVA, Escore Pólipo Nasal, Escore Lund-Mackay.</li>
+            </ul>
+        </div>
+    </div>
+    
     <script src="script.js"></script>
 </body>
 </html>

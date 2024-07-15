@@ -1,29 +1,35 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #F0F0F0; /* Neutro */
+    background-color: #e7c9c9; /* Neutro */
     margin: 0;
     padding: 0;
+    text-align: center;
 }
 
 .container {
     max-width: 600px;
     margin: 50px auto;
     padding: 20px;
-    background-color: #fff;
+    background-color: #faedb9; /* Amarelo Claro */
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
 h1 {
     text-align: center;
-    color: #D32F2F; /* Vermelho */
+    color: #b4450a; /* Vermelho */
+    text-align: center;
 }
-
 h2 {
-    border-bottom: 2px solid #388E3C; /* Verde */
-    padding-bottom: 5px;
-    margin-bottom: 15px;
-    color: #388E3C; /* Verde */
+    text-align: center;
+    color: #0d742c; /* Verde */
+    text-align: center;
+}
+h3, h4 {
+    text-align: center;
+    color: #0a6826; /* Vermelho */
+    text-align: center;
 }
 
 .sub-item {
@@ -32,12 +38,15 @@ h2 {
 
 .form-group {
     margin-bottom: 15px;
+    text-align: center;
 }
 
 label {
     display: block;
     margin-bottom: 5px;
-    color: #616161; /* Neutro Escuro */
+    color: #000000; /* Preto */
+    font-weight: bold;
+    text-align: center;
 }
 
 select, input {
@@ -47,6 +56,8 @@ select, input {
     margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    text-align: center;
+    text-decoration: solid;
 }
 
 .button-group {
@@ -58,19 +69,58 @@ select, input {
 button {
     flex: 1;
     padding: 10px;
-    background-color: #D32F2F; /* Vermelho */
-    color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 16px;
+    font-weight: bold;
+    color: white;
 }
 
-button:hover {
-    background-color: #F57C00; /* Laranja */
+#calculate-button {
+    background-color: #1c7c33; /* Verde */
+    color: #ccc;
 }
 
-/* Adicionar esta parte ao CSS existente */
+#calculate-button:hover {
+    background-color: #75c787;
+    color:#000000
+}
+
+#submit-button {
+    background-color: #055597; /* Azul */
+    color: #f6f4f4;
+}
+
+#submit-button:hover {
+    background-color: #6cb1fa;
+    color: #000000;
+}
+
+#print-button {
+    background-color: #ffc107; /* Amarelo */
+    color: black;
+}
+
+#print-button:hover {
+    background-color: #e0a800;
+}
+
+#reset-button {
+    background-color: #dc3545; /* Vermelho */
+}
+
+#reset-button:hover {
+    background-color: #c82333;
+}
+
+#help-button {
+    background-color: #4e52d1; /* Cinza */
+}
+
+#help-button:hover {
+    background-color: #37dff2;
+}
 
 .result-container {
     display: flex;
@@ -87,6 +137,9 @@ button:hover {
     border-radius: 8px;
     text-align: center;
     width: 100%;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .result.green {
@@ -106,4 +159,61 @@ button:hover {
     font-size: 18px;
     font-weight: bold;
     margin-top: 10px;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #F0F0F0;
+    color: #616161; /* Neutro Escuro */
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.reference {
+    font-size: 0.8em;
+    text-align: center;
+    color: #616161; /* Neutro Escuro */
+    margin-top: 20px;
+}
+
+/* Popup styles */
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    width: 80%;
+    max-width: 600px;
+}
+
+.popup-content {
+    position: relative;
+}
+
+.close-popup {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.info-icon {
+    cursor: pointer;
+    color: #007bff;
+    margin-left: 5px;
+}
+
+#popup-image {
+    width: 100%;
+    height: auto;
 }
