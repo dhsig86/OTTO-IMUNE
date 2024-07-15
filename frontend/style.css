@@ -49,9 +49,14 @@ select, input {
     border-radius: 4px;
 }
 
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
 button {
-    display: block;
-    width: 100%;
+    flex: 1;
     padding: 10px;
     background-color: #D32F2F; /* Vermelho */
     color: white;
@@ -63,4 +68,28 @@ button {
 
 button:hover {
     background-color: #F57C00; /* Laranja */
+}
+
+.result {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    color: #2c3e50;  /* Azul marinho */
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.result.green {
+    background-color: #d4edda;  /* Verde claro */
+}
+
+.result.red {
+    background-color: #f8d7da;  /* Vermelho claro */
+}
+
+.hidden {
+    display: none;
 }
