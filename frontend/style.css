@@ -19,17 +19,16 @@ body {
 h1 {
     text-align: center;
     color: #b4450a; /* Vermelho */
-    text-align: center;
 }
+
 h2 {
     text-align: center;
     color: #0d742c; /* Verde */
-    text-align: center;
 }
+
 h3, h4 {
     text-align: center;
-    color: #0a6826; /* Vermelho */
-    text-align: center;
+    color: #0a6826; /* Verde */
 }
 
 .sub-item {
@@ -46,7 +45,6 @@ label {
     margin-bottom: 5px;
     color: #000000; /* Preto */
     font-weight: bold;
-    text-align: center;
 }
 
 select, input {
@@ -57,7 +55,6 @@ select, input {
     border: 1px solid #ccc;
     border-radius: 4px;
     text-align: center;
-    text-decoration: solid;
 }
 
 .button-group {
@@ -84,7 +81,7 @@ button {
 
 #calculate-button:hover {
     background-color: #75c787;
-    color:#000000
+    color: #000000;
 }
 
 #submit-button {
@@ -216,4 +213,62 @@ footer {
 #popup-image {
     width: 100%;
     height: auto;
+}
+/* Media Queries */
+@media (max-width: 768px) {
+    .container {
+        margin: 20px auto;
+        padding: 10px;
+    }
+
+    h1, h2, h3, h4 {
+        font-size: 1.5em;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
+
+    button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .result {
+        font-size: 20px;
+        padding: 10px;
+    }
+
+    #result-message {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        margin: 10px auto;
+        padding: 5px;
+    }
+
+    h1, h2, h3, h4 {
+        font-size: 1.2em;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
+
+    button {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    .result {
+        font-size: 18px;
+        padding: 5px;
+    }
+
+    #result-message {
+        font-size: 14px;
+    }
 }

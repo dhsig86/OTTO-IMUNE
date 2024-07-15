@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         const formData = new FormData(form);
         let totalScore = 0;
 
-        // Convert string values to integers and sum up the scores
         formData.forEach((value, key) => {
             const score = parseInt(value, 10);
             if (!isNaN(score)) {
@@ -21,7 +20,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     function submitForm(event) {
-        event.preventDefault();  // Prevent the default form submission
+        event.preventDefault();
 
         const form = document.getElementById('eligibility-form');
         if (!form) return;
@@ -34,10 +33,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
             data[key] = isNaN(score) ? 0 : score;
         });
 
-        // Adiciona data e hora da submissão
         data['timestamp'] = new Date().toISOString();
 
-        fetch('https://nucalapp24-20166d95612a.herokuapp.com/submit', { // Atualize com o URL do seu Heroku
+        fetch('https://nucalapp24-20166d95612a.herokuapp.com/submit', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -91,7 +89,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         printWindow.document.write('<p>Data: ' + new Date(data.timestamp).toLocaleString() + '</p>');
         Object.keys(data).forEach(key => {
             if (key !== 'timestamp') {
-                printWindow.document.write('<p>' + document.querySelector(`label[for=${key}]`).innerText + ': ' + data[key] + '</p>');
+                printWindow.document.write('<p>' + key + ': ' + data[key] + '</p>');
             }
         });
         printWindow.document.write('<p>Pontuação Total: ' + data.total_score + '</p>');
@@ -118,6 +116,28 @@ document.addEventListener('DOMContentLoaded', (event) => {
             resultMessage.classList.add('hidden');
         }
     }
+
+    function showHelp() {
+        alert('Passo a passo:\n\n1. Preencha todos os campos do formulário.\n2. Clique em "Calcular" para calcular a pontuação total.\n3. Clique em "Enviar" para enviar os dados.\n4. Use o botão "Imprimir" para imprimir os resultados.\n5. Use o botão "Resetar" para limpar o formulário.\n6. Clique nos títulos para acessar facilidades ( links, Imagens, calculadoras) \n7. Válido para o SNOt-22, EVA, Escore Polipo Nasal, Escore Lund-Mackay');
+    }
+
+    function showPopup(imageSrc) {
+        const popup = document.getElementById('popup-container');
+        const popupImage = document.getElementById('popup-image');
+        if (popup && popupImage) {
+            popupImage.src = imageSrc;
+            popup.classList.remove('hidden');
+        }
+    }
+
+    function closePopup() {
+        const popup = document.getElementById('popup-container');
+        if (popup) {
+            popup.classList.add('hidden');
+        }
+    }
+
+    document.getElementById('close-popup').addEventListener('click', closePopup);
 
     const calculateButton = document.getElementById('calculate-button');
     if (calculateButton) {
@@ -148,65 +168,29 @@ document.addEventListener('DOMContentLoaded', (event) => {
         resetButton.addEventListener('click', resetForm);
     }
 
-    // Popup functionality
-    function showPopup(imageSrc) {
-        const popupContainer = document.getElementById('popup-container');
-        const popupImage = document.getElementById('popup-image');
-        if (popupContainer && popupImage) {
-            popupImage.src = imageSrc;
-            popupContainer.classList.remove('hidden');
-        }
-    }
-
     const openEvaPopup = document.getElementById('open-eva-popup');
     if (openEvaPopup) {
         openEvaPopup.addEventListener('click', () => {
-            showPopup('images/eva.png');  // Certifique-se de que a imagem esteja na pasta correta
+            showPopup('images/eva.png');
         });
     }
 
     const openPolypPopup = document.getElementById('open-polyp-popup');
     if (openPolypPopup) {
         openPolypPopup.addEventListener('click', () => {
-            showPopup('images/polyp.png');  // Certifique-se de que a imagem esteja na pasta correta
+            showPopup('images/polyp.png');
         });
     }
 
-    const openLundmckayPopup = document.getElementById('open-lundmckay-popup');
-    if (openLundmckayPopup) {
-        openLundmckayPopup.addEventListener('click', () => {
-            showPopup('images/lundmckay.png');  // Certifique-se de que a imagem esteja na pasta correta
+    const openLundMckayPopup = document.getElementById('open-lundmckay-popup');
+    if (openLundMckayPopup) {
+        openLundMckayPopup.addEventListener('click', () => {
+            showPopup('images/lundmckay.jpeg');
         });
     }
 
-    const closePopup = document.getElementById('close-popup');
-    if (closePopup) {
-        closePopup.addEventListener('click', () => {
-            const popupContainer = document.getElementById('popup-container');
-            if (popupContainer) {
-                popupContainer.classList.add('hidden');
-            }
-        });
-    }
-
-    // Help Popup functionality
     const helpButton = document.getElementById('help-button');
     if (helpButton) {
-        helpButton.addEventListener('click', () => {
-            const helpPopupContainer = document.getElementById('help-popup-container');
-            if (helpPopupContainer) {
-                helpPopupContainer.classList.remove('hidden');
-            }
-        });
-    }
-
-    const closeHelpPopup = document.getElementById('close-help-popup');
-    if (closeHelpPopup) {
-        closeHelpPopup.addEventListener('click', () => {
-            const helpPopupContainer = document.getElementById('help-popup-container');
-            if (helpPopupContainer) {
-                helpPopupContainer.classList.add('hidden');
-            }
-        });
+        helpButton.addEventListener('click', showHelp);
     }
 });
