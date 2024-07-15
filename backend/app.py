@@ -1,6 +1,6 @@
 import os
 import sys
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_cors import CORS
@@ -8,10 +8,8 @@ from flask_cors import CORS
 # Adiciona o caminho 'backend' ao sys.path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-# Configuração do Flask para usar templates e arquivos estáticos na pasta 'frontend'
-app = Flask(__name__, static_folder='frontend', template_folder='frontend')
+app = Flask(__name__, static_folder='../frontend', static_url_path='', template_folder='../frontend')
 app.config.from_object('backend.config.Config')
-
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
@@ -19,6 +17,10 @@ CORS(app)
 
 # Importa os modelos após a inicialização do db
 import backend.models
+
+@app.route('/')
+def serve():
+    return send_from_directory(app.static_folder, 'index.html')
 
 @app.route('/submit', methods=['POST'])
 def submit():
