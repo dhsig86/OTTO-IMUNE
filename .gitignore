@@ -1,0 +1,11 @@
+node_modules/
+dist/
+latest.dump
+.env
+.env.local
+.DS_Store
+__pycache__/
+*.pyc
+venv/
+legacy/latest.dump
+*.log
