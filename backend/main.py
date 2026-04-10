@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 from typing import Optional
-from backend.models import SessionLocal, FormDataModel
+from models import SessionLocal, FormDataModel
 
 app = FastAPI(title="OTTO-IMUNE API")
 
