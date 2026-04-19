@@ -73,7 +73,7 @@ export default function HubPage() {
           </div>
           <div>
             <h2 className="text-lg font-bold text-otto-primary-dk mb-1">Formulário LME</h2>
-            <p className="text-sm text-otto-muted leading-relaxed">Baixar o Laudo de Medicamentos Excepcionais padrão vigênte.</p>
+            <p className="text-sm text-otto-muted leading-relaxed">Baixar o Laudo de Medicamentos Excepcionais padrão vigente.</p>
           </div>
         </a>
 

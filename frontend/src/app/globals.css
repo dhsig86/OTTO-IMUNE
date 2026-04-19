@@ -1,5 +1,23 @@
 @import "tailwindcss";
 
+/* ──────────────────────────────────────────
+   Tailwind v4 — registra tokens OTTO PWA como
+   classes utilitárias (bg-otto-*, text-otto-*, etc.)
+─────────────────────────────────────────── */
+@theme {
+  --color-otto-bg:        #f0f4f8;
+  --color-otto-surface:   #ffffff;
+  --color-otto-primary:   #0d6d6d;
+  --color-otto-primary-dk:#0a4c4f;
+  --color-otto-text:      #1a2b2c;
+  --color-otto-muted:     #56717a;
+  --color-otto-border:    #d0dde0;
+  --color-otto-success:   #1c7a52;
+  --color-otto-warn:      #b15624;
+
+  --font-family-sans: var(--font-inter), Inter, sans-serif;
+}
+
 :root {
   /* Paleta base (OTTO PWA tokens) */
   --otto-bg:        #f0f4f8;

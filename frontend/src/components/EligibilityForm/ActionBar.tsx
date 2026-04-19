@@ -22,17 +22,17 @@ export default function ActionBar({ onCalculate, isPending, onPrint, onReset, on
       <button type="submit" className={btnPrimary} disabled={isPending}>
         {isPending ? "Enviando..." : "Enviar"}
       </button>
-      <button type="button" className={btnSecondary} onClick={onHistory}>
-        Histórico
-      </button>
       <button type="button" className={btnWarning} onClick={onPrint}>
         Imprimir
       </button>
-      <button type="button" className={btnDanger} onClick={onReset}>
-        Resetar
-      </button>
       <button type="button" className={btnSecondary} onClick={onHelp}>
         Ajuda
+      </button>
+      <button type="button" className={btnSecondary} onClick={onHistory}>
+        Histórico
+      </button>
+      <button type="button" className={btnDanger} onClick={onReset}>
+        Resetar
       </button>
     </div>
   );

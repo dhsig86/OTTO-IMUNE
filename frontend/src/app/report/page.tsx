@@ -21,6 +21,7 @@ export default function ReportGenerator() {
   });
 
   const [generatedReport, setGeneratedReport] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
 
   // Pre-fill with session data if available
   useEffect(() => {
@@ -152,11 +153,12 @@ export default function ReportGenerator() {
               type="button" 
               onClick={() => {
                 navigator.clipboard.writeText(generatedReport);
-                alert("Copiado!");
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2000);
               }}
               className="bg-otto-bg text-otto-primary border border-otto-border font-semibold px-3 py-1.5 rounded hover:bg-otto-border transition-colors text-sm"
             >
-              Copiar
+              {copied ? "✓ Copiado!" : "Copiar"}
             </button>
             <button 
               type="button" 

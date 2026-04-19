@@ -38,14 +38,25 @@ export default function ReferencePopup({
       }}
     >
       <div className="relative pt-8 pb-6 px-6 max-w-[600px] bg-otto-surface overflow-y-auto max-h-[85vh]">
-        <button 
-          type="button" 
-          className="absolute top-3 right-3 bg-transparent border-none text-[1.5rem] leading-none text-otto-muted cursor-pointer px-2 py-1 rounded transition-colors hover:text-otto-text hover:bg-otto-bg" 
+        <button
+          type="button"
           onClick={onClose}
+          className="absolute top-3 right-3 text-[1.4rem] leading-none text-otto-muted bg-transparent border-none cursor-pointer hover:text-otto-text transition-colors"
+          aria-label="Fechar"
         >
           &times;
         </button>
-        <img src={src} alt={alt} className="w-full h-auto block rounded-md" />
+        {src && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={src}
+            alt={alt}
+            className="max-w-full h-auto rounded-lg block mx-auto"
+          />
+        )}
+        {alt && (
+          <p className="text-center text-sm text-otto-muted mt-3 mb-0">{alt}</p>
+        )}
       </div>
     </dialog>
   );

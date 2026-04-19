@@ -45,9 +45,9 @@ export default function HistoryDrawer({ isOpen, onClose, internalPatientId, user
 
         setItems(payload.items ?? []);
         setError(null);
-      } catch (err: any) {
-        if (err.name === "AbortError") return;
-        setError(err.message || "Erro desconhecido");
+      } catch (err: unknown) {
+        if (err instanceof Error && err.name === "AbortError") return;
+        setError(err instanceof Error ? err.message : "Erro desconhecido");
       } finally {
         setLoading(false);
       }
@@ -76,7 +76,7 @@ export default function HistoryDrawer({ isOpen, onClose, internalPatientId, user
             <h2 className="text-otto-primary-dk font-semibold text-lg m-0">Histórico do Paciente</h2>
             <button type="button" className="bg-transparent border-none text-[1.5rem] leading-none text-otto-muted cursor-pointer px-2 py-1 rounded transition-colors hover:text-otto-text hover:bg-otto-bg" onClick={onClose}>&times;</button>
           </div>
-          
+
           <div className="flex-1 overflow-y-auto px-5 py-4">
             {!internalPatientId ? (
               <p className="text-otto-muted">Nenhum paciente interno selecionado ou salvo.</p>
@@ -94,12 +94,12 @@ export default function HistoryDrawer({ isOpen, onClose, internalPatientId, user
                       <strong className={item.result?.eligible ? "text-otto-success" : "text-otto-warn"}>
                         {item.result?.label || "Avaliação"}
                       </strong>
-                      <span className="font-bold text-[1.2rem] text-otto-text">{item.totalScore}</span>
+                      <span className="font-bold text-[1.2rem] text-otto-text">{item.totalScore ?? "—"}</span>
                     </div>
                     {item.createdAt && (
-                       <small className="text-otto-muted">
-                         {new Date(item.createdAt).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" })}
-                       </small>
+                      <p className="text-[0.8rem] text-otto-muted m-0">
+                        {new Date(item.createdAt).toLocaleString("pt-BR")}
+                      </p>
                     )}
                   </li>
                 ))}

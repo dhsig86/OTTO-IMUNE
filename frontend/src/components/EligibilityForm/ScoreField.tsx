@@ -45,13 +45,13 @@ export default function ScoreField({
         )}
       </label>
       <select
-        className="w-full px-3 py-2.5 border border-otto-border rounded-lg bg-otto-bg text-otto-text text-[0.95rem] focus:outline-none focus:border-otto-primary focus:ring-3 focus:ring-otto-primary/15 appearance-none bg-[url('data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2212%22%20height=%228%22%20viewBox=%220%200%2012%208%22%3E%3Cpath%20fill=%22%2356717a%22%20d=%22M1%201l5%205%205-5%22/%3E%3C/svg%3E')] bg-no-repeat bg-[position:right_12px_center] bg-[length:12px_8px] cursor-pointer transition-all"
+        className="w-full px-3 py-2.5 border border-otto-border rounded-lg bg-otto-bg text-otto-text text-[0.95rem] focus:outline-none focus:border-otto-primary transition-colors"
         value={currentValue}
-        onChange={(event) => onChange(fieldKey, Number(event.target.value))}
+        onChange={(e) => onChange(fieldKey, parseInt(e.target.value))}
       >
-        {options.map((option) => (
-          <option key={`${fieldKey}-${option.value}`} value={option.value}>
-            {option.label}
+        {options.map((opt) => (
+          <option key={opt.value} value={opt.value}>
+            {opt.label}
           </option>
         ))}
       </select>

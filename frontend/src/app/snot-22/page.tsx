@@ -32,6 +32,7 @@ const SNOT_QUESTIONS = [
 export default function Snot22Calc() {
   const { setPatientData } = usePatient();
   const [scores, setScores] = useState<number[]>(Array(22).fill(0));
+  const [saved, setSaved] = useState(false);
 
   const totalScore = scores.reduce((a, b) => a + b, 0);
 
@@ -44,7 +45,8 @@ export default function Snot22Calc() {
 
   function handleSave() {
     setPatientData({ snot22Score: totalScore });
-    alert(`Escore de ${totalScore} salvo na sessão ativa para o Relatório!`);
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2500);
   }
 
   function reset() {
@@ -100,7 +102,12 @@ export default function Snot22Calc() {
           {totalScore} <span className="text-lg font-normal opacity-70">/ 110</span>
         </div>
         
-        <div className="flex gap-4 mt-8">
+        {saved && (
+          <p className="mt-4 text-otto-success font-semibold text-sm animate-pulse">
+            ✓ Escore {totalScore} salvo na sessão — disponível no Relatório
+          </p>
+        )}
+        <div className="flex gap-4 mt-4">
           <button type="button" onClick={handleSave} className="bg-otto-primary text-white font-semibold px-6 py-3 rounded-lg hover:bg-otto-primary-dk transition-colors">
             Salvar na Sessão (Relatório)
           </button>

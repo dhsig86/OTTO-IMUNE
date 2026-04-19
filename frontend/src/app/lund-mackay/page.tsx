@@ -20,6 +20,7 @@ export default function LundMackayCalc() {
     SINUSES.forEach(s => { initial[s.id] = { left: 0, right: 0 }; });
     return initial;
   });
+  const [saved, setSaved] = useState(false);
 
   const totalScore = SINUSES.reduce((acc, s) => acc + scores[s.id].left + scores[s.id].right, 0);
 
@@ -32,7 +33,8 @@ export default function LundMackayCalc() {
 
   function handleSave() {
     setPatientData({ lundMackayScore: totalScore });
-    alert(`Escore de ${totalScore} salvo na sessão ativa para o Relatório!`);
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2500);
   }
 
   function reset() {
@@ -108,7 +110,12 @@ export default function LundMackayCalc() {
           {totalScore}
         </div>
         
-        <div className="flex gap-4 mt-8">
+        {saved && (
+          <p className="mt-4 text-otto-success font-semibold text-sm animate-pulse">
+            ✓ Escore {totalScore} salvo na sessão — disponível no Relatório
+          </p>
+        )}
+        <div className="flex gap-4 mt-4">
           <button type="button" onClick={handleSave} className="bg-otto-primary text-white font-semibold px-6 py-3 rounded-lg hover:bg-otto-primary-dk transition-colors">
             Salvar na Sessão (Relatório)
           </button>
