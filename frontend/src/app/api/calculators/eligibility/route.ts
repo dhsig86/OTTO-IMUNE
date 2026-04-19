@@ -72,19 +72,27 @@ export async function POST(request: Request) {
     const breakdown = buildEligibilityBreakdown(scores);
     const narrative = getEligibilityNarrative(totalScore, breakdown);
 
-    if (!patientName) {
-      return Response.json({ error: "Informe o nome do paciente." }, { status: 400 });
-    }
+    const db = getAdminDb();
+    const auth = authContextFromToken(verifiedUser);
 
-    if (!birthDate && age === null) {
-      return Response.json(
-        { error: "Informe a data de nascimento ou a idade do paciente." },
-        { status: 400 }
-      );
-    }
+    // Validações de dados do paciente só são obrigatórias quando há persistência
+    // configurada. Em modo standalone (sem Firebase), o cálculo é feito e retornado
+    // diretamente sem gravar no Firestore.
+    if (db) {
+      if (!patientName) {
+        return Response.json({ error: "Informe o nome do paciente." }, { status: 400 });
+      }
 
-    if (cid10Codes.length === 0) {
-      return Response.json({ error: "Informe pelo menos um CID-10." }, { status: 400 });
+      if (!birthDate && age === null) {
+        return Response.json(
+          { error: "Informe a data de nascimento ou a idade do paciente." },
+          { status: 400 }
+        );
+      }
+
+      if (cid10Codes.length === 0) {
+        return Response.json({ error: "Informe pelo menos um CID-10." }, { status: 400 });
+      }
     }
 
     const payload = {
@@ -106,9 +114,6 @@ export async function POST(request: Request) {
       embedMode: body.embedMode === true,
       createdAt: new Date().toISOString()
     };
-
-    const db = getAdminDb();
-    const auth = authContextFromToken(verifiedUser);
 
     if (!db) {
       return Response.json({

@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import EligibilityForm from "@/components/EligibilityForm";
+import EligibilityForm from "@/components/EligibilityForm/index";
 
 export default function HomePage() {
   return (

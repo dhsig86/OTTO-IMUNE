@@ -1,17 +1,15 @@
 :root {
-  --page-bg: #f4efe5;
-  --paper: rgba(255, 250, 243, 0.88);
-  --paper-strong: #fff9f0;
-  --ink: #1f2a2c;
-  --muted: #596466;
-  --line: rgba(48, 69, 71, 0.14);
-  --teal: #0d6d6d;
-  --teal-deep: #0a4c4f;
-  --sand: #e4d5bd;
-  --warm: #a66839;
-  --good: #1c7a52;
-  --warn: #b15624;
-  --shadow: 0 24px 80px rgba(40, 39, 33, 0.12);
+  /* Paleta base (OTTO PWA tokens) */
+  --otto-bg:        #f0f4f8;
+  --otto-surface:   #ffffff;
+  --otto-primary:   #0d6d6d;
+  --otto-primary-dk:#0a4c4f;
+  --otto-text:      #1a2b2c;
+  --otto-muted:     #56717a;
+  --otto-border:    #d0dde0;
+  --otto-success:   #1c7a52;
+  --otto-warn:      #b15624;
+  --otto-shadow:    0 2px 12px rgba(0, 0, 0, 0.08);
 }
 
 * {
@@ -20,24 +18,27 @@
 
 html {
   min-height: 100%;
-  background:
-    radial-gradient(circle at top left, rgba(13, 109, 109, 0.16), transparent 24rem),
-    radial-gradient(circle at bottom right, rgba(166, 104, 57, 0.12), transparent 28rem),
-    var(--page-bg);
+  background-color: var(--otto-bg);
 }
 
 body {
   margin: 0;
   min-height: 100vh;
-  color: var(--ink);
-  font-family: var(--font-body), sans-serif;
-  overflow-x: hidden;
+  color: var(--otto-text);
+  font-family: var(--font-inter), Inter, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
   -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
 }
 
 a {
-  color: inherit;
+  color: var(--otto-primary);
   text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 button,
@@ -45,4 +46,415 @@ input,
 select,
 textarea {
   font: inherit;
+}
+
+/* ──────────────────────────────────────────
+   Layout
+─────────────────────────────────────────── */
+
+.otto-container {
+  max-width: 680px;
+  margin: 32px auto;
+  padding: 32px 24px 48px;
+  background-color: var(--otto-surface);
+  border-radius: 12px;
+  box-shadow: var(--otto-shadow);
+}
+
+/* ──────────────────────────────────────────
+   Tipografia
+─────────────────────────────────────────── */
+
+.otto-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--otto-primary-dk);
+  text-align: center;
+  margin: 0 0 4px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--otto-border);
+}
+
+.otto-section-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--otto-primary-dk);
+  margin: 0 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--otto-border);
+}
+
+/* ──────────────────────────────────────────
+   Seções do formulário
+─────────────────────────────────────────── */
+
+.otto-section {
+  margin-bottom: 32px;
+}
+
+/* ──────────────────────────────────────────
+   Campos
+─────────────────────────────────────────── */
+
+.otto-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.otto-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--otto-text);
+  margin-bottom: 6px;
+}
+
+.otto-label a {
+  color: var(--otto-primary);
+  font-weight: 600;
+}
+
+.otto-select {
+  width: 100%;
+  padding: 10px 36px 10px 12px;
+  border: 1px solid var(--otto-border);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background-color: var(--otto-bg);
+  color: var(--otto-text);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2356717a' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px 8px;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.otto-select:focus {
+  outline: none;
+  border-color: var(--otto-primary);
+  box-shadow: 0 0 0 3px rgba(13, 109, 109, 0.15);
+}
+
+.otto-info-icon {
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  opacity: 0.7;
+  transition: opacity 0.15s;
+}
+
+.otto-info-icon:hover {
+  opacity: 1;
+}
+
+/* ──────────────────────────────────────────
+   Barra de ações
+─────────────────────────────────────────── */
+
+.otto-action-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin: 28px 0 16px;
+}
+
+/* ──────────────────────────────────────────
+   Botões
+─────────────────────────────────────────── */
+
+.otto-btn {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, box-shadow 0.2s, opacity 0.2s;
+  min-width: 100px;
+  text-align: center;
+}
+
+.otto-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.otto-btn:hover:not(:disabled) {
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+.otto-btn-primary {
+  background-color: var(--otto-primary);
+  color: #ffffff;
+}
+
+.otto-btn-primary:hover:not(:disabled) {
+  background-color: var(--otto-primary-dk);
+}
+
+.otto-btn-secondary {
+  background-color: var(--otto-bg);
+  color: var(--otto-primary-dk);
+  border: 1px solid var(--otto-border);
+}
+
+.otto-btn-secondary:hover:not(:disabled) {
+  background-color: var(--otto-border);
+}
+
+.otto-btn-warning {
+  background-color: #f59e0b;
+  color: #ffffff;
+}
+
+.otto-btn-warning:hover:not(:disabled) {
+  background-color: #d97706;
+}
+
+.otto-btn-danger {
+  background-color: #dc2626;
+  color: #ffffff;
+}
+
+.otto-btn-danger:hover:not(:disabled) {
+  background-color: #b91c1c;
+}
+
+/* ──────────────────────────────────────────
+   Resultado
+─────────────────────────────────────────── */
+
+.otto-result {
+  padding: 16px 20px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 20px;
+  background-color: var(--otto-bg);
+  border: 1px solid var(--otto-border);
+  color: var(--otto-text);
+}
+
+.otto-result.success {
+  background-color: #d1fae5;
+  border-color: var(--otto-success);
+  color: var(--otto-success);
+}
+
+.otto-result.error {
+  background-color: #fee2e2;
+  border-color: var(--otto-warn);
+  color: var(--otto-warn);
+}
+
+/* ──────────────────────────────────────────
+   Modal (ReferencePopup + HelpModal)
+─────────────────────────────────────────── */
+
+.otto-modal {
+  border: none;
+  border-radius: 12px;
+  padding: 0;
+  max-width: 90vw;
+  max-height: 90vh;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.otto-modal::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.otto-modal-content {
+  position: relative;
+  padding: 32px 24px 24px;
+  max-width: 600px;
+  background: var(--otto-surface);
+  overflow-y: auto;
+  max-height: 85vh;
+}
+
+.otto-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--otto-muted);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: color 0.15s, background-color 0.15s;
+}
+
+.otto-modal-close:hover {
+  color: var(--otto-text);
+  background-color: var(--otto-bg);
+}
+
+.otto-modal-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 6px;
+}
+
+/* ──────────────────────────────────────────
+   Drawer lateral (HistoryDrawer)
+─────────────────────────────────────────── */
+
+.otto-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 100;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.otto-drawer {
+  width: min(400px, 92vw);
+  height: 100%;
+  background: var(--otto-surface);
+  display: flex;
+  flex-direction: column;
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15);
+  animation: slide-in 0.22s ease;
+}
+
+@keyframes slide-in {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+
+.otto-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid var(--otto-border);
+  flex-shrink: 0;
+}
+
+.otto-drawer-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 20px;
+}
+
+/* ──────────────────────────────────────────
+   Print
+─────────────────────────────────────────── */
+
+@media print {
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  body {
+    background: #fff !important;
+    font-size: 11pt;
+  }
+
+  /* Ocultar controles interativos */
+  .otto-action-bar,
+  .otto-drawer-backdrop,
+  .otto-modal,
+  .otto-info-icon,
+  [aria-label*="Ver referência"] {
+    display: none !important;
+  }
+
+  /* Layout de impressão */
+  .otto-container {
+    box-shadow: none !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 12pt !important;
+    max-width: 100% !important;
+    border-radius: 0 !important;
+  }
+
+  /* Seções com quebra controlada */
+  .otto-section {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    margin-bottom: 16pt;
+  }
+
+  /* Selects: mostrar valor selecionado sem aparência de select */
+  .otto-select {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    background-image: none !important;
+    border-color: #ccc !important;
+    padding-right: 12px !important;
+  }
+
+  /* Resultado: garantir que cores apareçam na impressão */
+  .otto-result.success {
+    background-color: #d1fae5 !important;
+    color: #1c7a52 !important;
+    border: 2px solid #1c7a52 !important;
+  }
+
+  .otto-result.error {
+    background-color: #fee2e2 !important;
+    color: #b15624 !important;
+    border: 2px solid #b15624 !important;
+  }
+
+  /* Cabeçalho de impressão */
+  .otto-container::before {
+    content: "OTTO-IMUNE — Questionário de Elegibilidade para Imunobiológicos";
+    display: block;
+    font-size: 8pt;
+    color: #666;
+    text-align: right;
+    padding-bottom: 8pt;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 16pt;
+  }
+
+  /* Rodapé de impressão */
+  .otto-container footer {
+    margin-top: 24pt !important;
+    border-top: 1px solid #ddd;
+    padding-top: 8pt;
+    font-size: 8pt;
+  }
+}
+
+/* ──────────────────────────────────────────
+   Responsivo
+─────────────────────────────────────────── */
+
+@media (max-width: 600px) {
+  .otto-container {
+    margin: 0;
+    border-radius: 0;
+    padding: 20px 16px 40px;
+  }
+
+  .otto-btn {
+    min-width: 80px;
+    padding: 9px 12px;
+    font-size: 0.9rem;
+  }
+
+  .otto-title {
+    font-size: 1.3rem;
+  }
 }

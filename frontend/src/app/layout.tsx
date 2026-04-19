@@ -1,29 +1,22 @@
 import type { Metadata, Viewport } from "next";
-import { Manrope, Newsreader } from "next/font/google";
+import { Inter } from "next/font/google";
 import type { ReactNode } from "react";
 import "./globals.css";
 
-const bodyFont = Manrope({
+const interFont = Inter({
   subsets: ["latin"],
-  variable: "--font-body"
-});
-
-const displayFont = Newsreader({
-  subsets: ["latin"],
-  variable: "--font-display",
-  weight: ["400", "500", "600"]
+  variable: "--font-inter"
 });
 
 export const metadata: Metadata = {
   title: "OTTO-IMUNE",
-  description:
-    "Portal clínico para elegibilidade de imunobiológicos, apoio diagnóstico e futura emissão de relatórios e receitas."
+  description: "Questionário de Elegibilidade para uso de Imunobiológicos na Rinossinusite Crônica com Polipose Nasossinusal"
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#f4efe5"
+  themeColor: "#0d6d6d"
 };
 
 export default function RootLayout({
@@ -32,7 +25,7 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className={`${bodyFont.variable} ${displayFont.variable}`}>
+    <html lang="pt-BR" className={`${interFont.variable}`}>
       <body>{children}</body>
     </html>
   );
