@@ -6,47 +6,18 @@ export default function ClinicalNarrative({ narrative }: { narrative: string }) 
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div
-      style={{
-        marginTop: "16px",
-        border: "1px solid var(--otto-border)",
-        borderRadius: "6px",
-        overflow: "hidden"
-      }}
-    >
+    <div className="mt-4 border border-otto-border rounded-md overflow-hidden">
       <button
         type="button"
-        style={{
-          width: "100%",
-          padding: "11px 16px",
-          background: "var(--otto-bg)",
-          border: "none",
-          textAlign: "left",
-          cursor: "pointer",
-          fontWeight: 600,
-          fontSize: "0.9rem",
-          color: "var(--otto-muted)",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center"
-        }}
+        className="w-full py-3 px-4 bg-otto-bg border-none text-left cursor-pointer font-semibold text-[0.9rem] text-otto-muted flex justify-between items-center transition-colors hover:bg-otto-border"
         onClick={() => setIsOpen(!isOpen)}
         aria-expanded={isOpen}
       >
         <span>Leitura clínica</span>
-        <span style={{ fontSize: "0.75rem" }}>{isOpen ? "▲" : "▼"}</span>
+        <span className="text-[0.75rem]">{isOpen ? "▲" : "▼"}</span>
       </button>
       {isOpen && (
-        <div
-          style={{
-            padding: "14px 16px",
-            backgroundColor: "var(--otto-surface)",
-            color: "var(--otto-text)",
-            fontSize: "0.92rem",
-            lineHeight: 1.6,
-            borderTop: "1px solid var(--otto-border)"
-          }}
-        >
+        <div className="py-3.5 px-4 bg-otto-surface text-otto-text text-[0.92rem] leading-[1.6] border-t border-otto-border">
           {narrative}
         </div>
       )}

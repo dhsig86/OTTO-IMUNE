@@ -8,11 +8,16 @@ type ResultBadgeProps = {
 };
 
 export default function ResultBadge({ decision, totalScore, submission, errorMessage }: ResultBadgeProps) {
+  const resultBase = "p-4 rounded-lg text-center font-semibold mt-5";
+  const resultSuccess = `${resultBase} bg-green-50 border-2 border-otto-success text-otto-success`;
+  const resultError = `${resultBase} bg-red-50 border-2 border-otto-warn text-otto-warn`;
+  const resultNeutral = `${resultBase} bg-otto-bg border border-otto-border text-otto-text text-[0.95rem] !mt-3`;
+
   return (
     <>
       {decision && (
-        <div className={`otto-result ${decision.eligible ? "success" : "error"}`}>
-          <span style={{ fontSize: "2rem", fontWeight: 800, display: "block", marginBottom: "4px" }}>
+        <div className={decision.eligible ? resultSuccess : resultError}>
+          <span className="text-[2rem] font-extrabold block mb-1">
             {totalScore} pontos
           </span>
           {decision.message}
@@ -20,19 +25,10 @@ export default function ResultBadge({ decision, totalScore, submission, errorMes
       )}
 
       {submission && (
-        <div
-          className="otto-result"
-          style={{
-            marginTop: "12px",
-            fontSize: "0.95rem",
-            backgroundColor: "var(--otto-bg)",
-            color: "var(--otto-text)",
-            border: "1px solid var(--otto-border)"
-          }}
-        >
+        <div className={resultNeutral}>
           <strong>{submission.message}</strong>
           {submission.recordId && (
-            <p style={{ fontSize: "0.8rem", color: "var(--otto-muted)", margin: "4px 0 0" }}>
+            <p className="text-[0.8rem] text-otto-muted m-0 mt-1">
               ID: {submission.recordId}
             </p>
           )}
@@ -40,7 +36,7 @@ export default function ResultBadge({ decision, totalScore, submission, errorMes
       )}
 
       {errorMessage && (
-        <div className="otto-result error" style={{ fontSize: "0.95rem", marginTop: "12px" }}>
+        <div className={`${resultError} text-[0.95rem] !mt-3`}>
           {errorMessage}
         </div>
       )}

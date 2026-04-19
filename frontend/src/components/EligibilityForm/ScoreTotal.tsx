@@ -1,33 +1,20 @@
 export default function ScoreTotal({ totalScore }: { totalScore: number }) {
   const isEligible = totalScore >= 14;
-  const color =
+  const colorClass =
     totalScore === 0
-      ? "var(--otto-muted)"
+      ? "text-otto-muted"
       : isEligible
-        ? "var(--otto-success)"
-        : "var(--otto-warn)";
+        ? "text-otto-success"
+        : "text-otto-warn";
 
   return (
-    <div className="otto-field" style={{ alignItems: "center", marginTop: "32px", marginBottom: "8px" }}>
-      <label className="otto-label" style={{ justifyContent: "center" }}>
+    <div className="flex flex-col items-center mt-8 mb-2">
+      <label className="flex items-center gap-1.5 font-semibold text-[0.95rem] text-otto-text mb-1.5 justify-center">
         Pontuação Total
       </label>
       <input
         type="number"
-        style={{
-          width: "120px",
-          textAlign: "center",
-          fontWeight: "bold",
-          fontSize: "1.6rem",
-          color,
-          backgroundColor: "var(--otto-bg)",
-          border: "2px solid var(--otto-border)",
-          borderRadius: "8px",
-          padding: "8px 12px",
-          outline: "none",
-          cursor: "default",
-          transition: "color 0.3s"
-        }}
+        className={`w-[120px] text-center font-bold text-[1.6rem] bg-otto-bg border-2 border-otto-border rounded-lg px-3 py-2 outline-none cursor-default transition-colors ${colorClass}`}
         value={totalScore}
         readOnly
       />

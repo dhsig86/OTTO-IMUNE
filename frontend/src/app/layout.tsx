@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import type { ReactNode } from "react";
+import AppWrapper from "@/components/AppWrapper";
 import "./globals.css";
 
 const interFont = Inter({
@@ -10,13 +11,15 @@ const interFont = Inter({
 
 export const metadata: Metadata = {
   title: "OTTO-IMUNE",
-  description: "Questionário de Elegibilidade para uso de Imunobiológicos na Rinossinusite Crônica com Polipose Nasossinusal"
+  description: "Portal de Imunobiológicos para RSC com Polipose"
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#0d6d6d"
+  themeColor: "#0d6d6d",
+  maximumScale: 1,
+  userScalable: false
 };
 
 export default function RootLayout({
@@ -26,7 +29,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" className={`${interFont.variable}`}>
-      <body>{children}</body>
+      <body>
+        <AppWrapper>
+          {children}
+        </AppWrapper>
+      </body>
     </html>
   );
 }

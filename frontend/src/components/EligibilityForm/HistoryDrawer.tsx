@@ -60,43 +60,54 @@ export default function HistoryDrawer({ isOpen, onClose, internalPatientId, user
   if (!isOpen) return null;
 
   return (
-    <div className="otto-drawer-backdrop" onClick={onClose}>
-      <div className="otto-drawer" onClick={(e) => e.stopPropagation()}>
-        <div className="otto-drawer-header">
-          <h2 className="otto-section-title" style={{ margin: 0 }}>Histórico do Paciente</h2>
-          <button type="button" className="otto-modal-close" onClick={onClose} style={{ position: "static" }}>&times;</button>
-        </div>
-        
-        <div className="otto-drawer-content">
-          {!internalPatientId ? (
-            <p style={{ color: "var(--otto-muted)" }}>Nenhum paciente interno selecionado ou salvo.</p>
-          ) : loading ? (
-            <p style={{ color: "var(--otto-muted)" }}>Carregando histórico...</p>
-          ) : error ? (
-            <p style={{ color: "var(--otto-warn)" }}>{error}</p>
-          ) : items.length === 0 ? (
-            <p style={{ color: "var(--otto-muted)" }}>Nenhuma avaliação registrada ainda.</p>
-          ) : (
-            <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-              {items.map(item => (
-                <li key={item.id} style={{ padding: "12px", border: "1px solid var(--otto-border)", backgroundColor: "var(--otto-surface)", marginBottom: "8px", borderRadius: "6px" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "4px" }}>
-                    <strong style={{ color: item.result?.eligible ? "var(--otto-success)" : "var(--otto-warn)" }}>
-                      {item.result?.label || "Avaliação"}
-                    </strong>
-                    <span style={{ fontWeight: "bold", fontSize: "1.2rem", color: "var(--otto-text)" }}>{item.totalScore}</span>
-                  </div>
-                  {item.createdAt && (
-                     <small style={{ color: "var(--otto-muted)" }}>
-                       {new Date(item.createdAt).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" })}
-                     </small>
-                  )}
-                </li>
-              ))}
-            </ul>
-          )}
+    <>
+      <style>{`
+        @keyframes slideInRight {
+          from { transform: translateX(100%); }
+          to { transform: translateX(0); }
+        }
+        .animate-slide-in {
+          animation: slideInRight 0.22s ease-out forwards;
+        }
+      `}</style>
+      <div className="fixed inset-0 bg-black/40 z-[100] flex justify-end no-print" onClick={onClose}>
+        <div className="w-[min(400px,_92vw)] h-full bg-otto-surface flex flex-col shadow-[-4px_0_24px_rgba(0,0,0,0.15)] animate-slide-in" onClick={(e) => e.stopPropagation()}>
+          <div className="flex items-center justify-between p-5 pb-4 border-b border-otto-border shrink-0">
+            <h2 className="text-otto-primary-dk font-semibold text-lg m-0">Histórico do Paciente</h2>
+            <button type="button" className="bg-transparent border-none text-[1.5rem] leading-none text-otto-muted cursor-pointer px-2 py-1 rounded transition-colors hover:text-otto-text hover:bg-otto-bg" onClick={onClose}>&times;</button>
+          </div>
+          
+          <div className="flex-1 overflow-y-auto px-5 py-4">
+            {!internalPatientId ? (
+              <p className="text-otto-muted">Nenhum paciente interno selecionado ou salvo.</p>
+            ) : loading ? (
+              <p className="text-otto-muted">Carregando histórico...</p>
+            ) : error ? (
+              <p className="text-otto-warn">{error}</p>
+            ) : items.length === 0 ? (
+              <p className="text-otto-muted">Nenhuma avaliação registrada ainda.</p>
+            ) : (
+              <ul className="list-none p-0 m-0">
+                {items.map(item => (
+                  <li key={item.id} className="p-3 border border-otto-border bg-otto-surface mb-2 rounded-md">
+                    <div className="flex justify-between mb-1">
+                      <strong className={item.result?.eligible ? "text-otto-success" : "text-otto-warn"}>
+                        {item.result?.label || "Avaliação"}
+                      </strong>
+                      <span className="font-bold text-[1.2rem] text-otto-text">{item.totalScore}</span>
+                    </div>
+                    {item.createdAt && (
+                       <small className="text-otto-muted">
+                         {new Date(item.createdAt).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" })}
+                       </small>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useEffectEvent, useRef, useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { type User, onIdTokenChanged } from "firebase/auth";
-import { useSearchParams } from "next/navigation";
 import { getFirebaseClientServices } from "@/lib/firebase-client";
+import { usePatient } from "@/contexts/PatientContext";
 import {
   eligibilitySections,
   getEligibilityDecision,
@@ -37,30 +37,6 @@ type SessionState = {
   user: User | null;
 };
 
-type PatientState = {
-  name: string;
-  birthDate: string;
-  age: string;
-  cid10: string;
-};
-
-type BridgePayload = {
-  sourcePatientId?: string | null;
-  ottoImunePatientId?: string | null;
-  patientName?: string | null;
-  birthDate?: string | null;
-  age?: string | number | null;
-  cid10?: string | null;
-  embed?: boolean;
-};
-
-const emptyPatient: PatientState = {
-  name: "",
-  birthDate: "",
-  age: "",
-  cid10: ""
-};
-
 async function getAuthToken() {
   const services = getFirebaseClientServices();
   const user = services?.auth.currentUser;
@@ -69,19 +45,14 @@ async function getAuthToken() {
 }
 
 export default function EligibilityForm() {
-  const searchParams = useSearchParams();
-  const shellRef = useRef<HTMLFormElement | null>(null);
+  const { patient, setPatientData } = usePatient();
   
   const [scores, setScores] = useState<EligibilityScores>(createEmptyScores());
-  const [patient, setPatient] = useState<PatientState>(emptyPatient);
   const [decision, setDecision] = useState<EligibilityDecision | null>(null);
   const [submission, setSubmission] = useState<SubmissionState | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [session, setSession] = useState<SessionState>({ ready: false, user: null });
-  const [internalPatientId, setInternalPatientId] = useState<string | null>(null);
-  const [bridgeContext, setBridgeContext] = useState<BridgePayload | null>(null);
   const [isPending, startTransition] = useTransition();
 
   const [popupConfig, setPopupConfig] = useState<{ isOpen: boolean; src: string; alt: string }>({ isOpen: false, src: "", alt: "" });
@@ -90,72 +61,8 @@ export default function EligibilityForm() {
 
   const totalScore = sumEligibilityScore(scores);
   
-  // Narrativa clínica: calculada apenas quando há uma decisão ativa
   const liveBreakdown = decision ? buildEligibilityBreakdown(scores) : null;
   const liveNarrative = liveBreakdown ? getEligibilityNarrative(totalScore, liveBreakdown) : null;
-
-  const embedMode = bridgeContext?.embed === true || searchParams.get("embed") === "1";
-  const sourcePatientId = bridgeContext?.sourcePatientId ?? searchParams.get("patientId") ?? searchParams.get("sourcePatientId");
-  const ottoImunePatientId = bridgeContext?.ottoImunePatientId ?? searchParams.get("ottoImunePatientId");
-  
-  const allowedParentOrigin = process.env.NEXT_PUBLIC_OTTO_ALLOWED_PARENT_ORIGIN?.trim() || "*";
-
-  const postToParent = useEffectEvent((type: string, payload: Record<string, unknown>) => {
-    if (typeof window === "undefined" || window.parent === window) return;
-    window.parent.postMessage({ type, payload }, allowedParentOrigin === "*" ? "*" : allowedParentOrigin);
-  });
-
-  const applyBridgeContext = useEffectEvent((payload: BridgePayload) => {
-    setBridgeContext((current) => ({ ...current, ...payload }));
-    setPatient((current) => ({
-      name: current.name || payload.patientName || "",
-      birthDate: current.birthDate || payload.birthDate || "",
-      age: current.age || (payload.age === null || payload.age === undefined ? "" : String(payload.age)),
-      cid10: current.cid10 || payload.cid10 || ""
-    }));
-    if (payload.ottoImunePatientId) {
-      setInternalPatientId((current) => current || payload.ottoImunePatientId || null);
-    }
-  });
-
-  useEffect(() => {
-    setPatient((current) => ({
-      name: current.name || bridgeContext?.patientName || searchParams.get("patientName") || "",
-      birthDate: current.birthDate || bridgeContext?.birthDate || searchParams.get("birthDate") || "",
-      age: current.age || (bridgeContext?.age === null || bridgeContext?.age === undefined ? searchParams.get("age") || "" : String(bridgeContext.age)),
-      cid10: current.cid10 || bridgeContext?.cid10 || searchParams.get("cid10") || ""
-    }));
-    setInternalPatientId((current) => current || ottoImunePatientId || null);
-  }, [bridgeContext, ottoImunePatientId, searchParams]);
-
-  useEffect(() => {
-    postToParent("otto-imune:ready", {
-      version: "2026-04-19",
-      embedMode,
-      capabilities: ["eligibility", "history", "reportDraft", "prescriptionDraft"]
-    });
-  }, [embedMode, postToParent]);
-
-  useEffect(() => {
-    function handleWindowMessage(event: MessageEvent) {
-      if (allowedParentOrigin !== "*" && event.origin !== allowedParentOrigin && event.origin !== "null") return;
-      if (!event.data || typeof event.data !== "object") return;
-      const message = event.data as { type?: string; payload?: BridgePayload };
-      if (message.type === "otto:set-context" && message.payload) applyBridgeContext(message.payload);
-    }
-    window.addEventListener("message", handleWindowMessage);
-    return () => window.removeEventListener("message", handleWindowMessage);
-  }, [allowedParentOrigin, applyBridgeContext]);
-
-  useEffect(() => {
-    if (!shellRef.current || typeof ResizeObserver === "undefined") return;
-    const observer = new ResizeObserver((entries) => {
-      if (!entries[0]) return;
-      postToParent("otto-imune:height", { height: Math.ceil(entries[0].contentRect.height) });
-    });
-    observer.observe(shellRef.current);
-    return () => observer.disconnect();
-  }, [postToParent]);
 
   useEffect(() => {
     const services = getFirebaseClientServices();
@@ -207,11 +114,16 @@ export default function EligibilityForm() {
             ...(token ? { Authorization: `Bearer ${token}` } : {})
           },
           body: JSON.stringify({
-            patientId: internalPatientId,
-            sourcePatientId,
-            embedMode,
-            source: embedMode ? "otto-pwa-webview" : "otto-imune-web",
-            patient,
+            patientId: patient.ottoImunePatientId,
+            sourcePatientId: patient.sourcePatientId,
+            embedMode: patient.embedMode,
+            source: patient.embedMode ? "otto-pwa-webview" : "otto-imune-web",
+            patient: {
+              name: patient.name,
+              birthDate: patient.birthDate,
+              age: patient.age,
+              cid10: patient.cid10
+            },
             scores
           })
         });
@@ -219,7 +131,9 @@ export default function EligibilityForm() {
         const payload = await response.json();
         if (!response.ok) throw new Error(payload.error || "Erro ao registrar a avaliação.");
 
-        if (payload.patientId) setInternalPatientId(payload.patientId);
+        if (payload.patientId) {
+          setPatientData({ ottoImunePatientId: payload.patientId });
+        }
         
         setDecision(nextDecision);
         setSubmission({
@@ -236,12 +150,22 @@ export default function EligibilityForm() {
   }
 
   return (
-    <div style={{ padding: "16px 0", width: "100%" }}>
-      <form ref={shellRef} className="otto-container" onSubmit={handleSubmit}>
-        <div style={{ textAlign: "center", marginBottom: "32px" }}>
-          <h1 className="otto-title" style={{ borderBottom: "none", margin: 0 }}>Questionário de Elegibilidade</h1>
-          <h3 style={{ margin: "4px 0", color: "var(--otto-primary)", fontWeight: "500" }}>para uso de Imunobiológicos</h3>
-          <h4 style={{ margin: 0, color: "var(--otto-muted)", fontWeight: "normal" }}>na Rinossinusite Crônica com Polipose Nasossinusal</h4>
+    <div className="w-full py-4 print:p-0">
+      <form className="max-w-[680px] mx-auto my-8 p-8 bg-otto-surface rounded-xl shadow-[0_2px_12px_rgba(0,0,0,0.08)] print:shadow-none print:m-0 print:max-w-full print:p-0" onSubmit={handleSubmit}>
+        
+        {/* Patient Info Header if exists */}
+        {(patient.name || patient.age || patient.cid10) && (
+           <div className="mb-6 p-4 rounded-lg bg-otto-bg border border-otto-border text-sm flex gap-4 text-otto-text no-print">
+             {patient.name && <div><strong>Paciente:</strong> {patient.name}</div>}
+             {patient.age && <div><strong>Idade:</strong> {patient.age}</div>}
+             {patient.cid10 && <div><strong>CID:</strong> {patient.cid10}</div>}
+           </div>
+        )}
+
+        <div className="text-center mb-8">
+          <h1 className="text-otto-primary-dk font-bold text-[1.6rem] m-0 border-none pb-0">Questionário de Elegibilidade</h1>
+          <h3 className="text-otto-primary font-medium my-1">para uso de Imunobiológicos</h3>
+          <h4 className="text-otto-muted font-normal m-0">na Rinossinusite Crônica com Polipose Nasossinusal</h4>
         </div>
 
         {eligibilitySections.map((section) => (
@@ -289,7 +213,7 @@ export default function EligibilityForm() {
           <ClinicalNarrative narrative={liveNarrative} />
         )}
 
-        <footer style={{ marginTop: "40px", textAlign: "center", color: "var(--otto-muted)", fontSize: "0.9rem" }}>
+        <footer className="mt-10 text-center text-otto-muted text-[0.9rem] border-t border-otto-border pt-4">
           <p>Guideline for the use of immunobiologicals in chronic rhinosinusitis with nasal polyps (CRSWNP) in Brazil</p>
           <p>Criado pelo Dr. Dario Hart Signorini</p>
         </footer>
@@ -297,7 +221,7 @@ export default function EligibilityForm() {
 
       <ReferencePopup src={popupConfig.src} alt={popupConfig.alt} isOpen={popupConfig.isOpen} onClose={() => setPopupConfig({ ...popupConfig, isOpen: false })} />
       <HelpModal isOpen={helpOpen} onClose={() => setHelpOpen(false)} />
-      <HistoryDrawer isOpen={historyOpen} onClose={() => setHistoryOpen(false)} internalPatientId={internalPatientId} user={session.user} submissionId={submission?.recordId ?? null} />
+      <HistoryDrawer isOpen={historyOpen} onClose={() => setHistoryOpen(false)} internalPatientId={patient.ottoImunePatientId} user={session.user} submissionId={submission?.recordId ?? null} />
     </div>
   );
 }
