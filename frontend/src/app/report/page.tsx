@@ -116,10 +116,12 @@ export default function ReportGenerator() {
           <div className="flex flex-col gap-1.5">
             <label className="text-sm font-semibold text-otto-text">Pontuação Lund-Mackay</label>
             <input type="number" name="lundMackay" value={formData.lundMackay} onChange={handleChange} className="px-3 py-2 border border-otto-border rounded-lg bg-otto-bg focus:outline-none focus:border-otto-primary" />
+            {patient.lundMackayScore !== null && <span className="text-[0.8rem] text-amber-600 font-medium">⚠ Sugerido pela sessão — confirme antes de gerar</span>}
           </div>
           <div className="flex flex-col gap-1.5">
             <label className="text-sm font-semibold text-otto-text">Pontuação SNOT-22</label>
             <input type="number" name="snot22" value={formData.snot22} onChange={handleChange} className="px-3 py-2 border border-otto-border rounded-lg bg-otto-bg focus:outline-none focus:border-otto-primary" />
+            {patient.snot22Score !== null && <span className="text-[0.8rem] text-amber-600 font-medium">⚠ Sugerido pela sessão — confirme antes de gerar</span>}
           </div>
           <div className="col-span-1 md:col-span-2 flex flex-col gap-1.5">
             <label className="text-sm font-semibold text-otto-text">Descrição da Tomografia</label>

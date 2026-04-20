@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { type User } from "firebase/auth";
 
 type HistoryItem = {
@@ -26,8 +26,19 @@ export default function HistoryDrawer({ isOpen, onClose, internalPatientId, user
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const fetchedRef = useRef<{ id: string | null; submissionId: string | null; items: HistoryItem[] }>({
+    id: null,
+    submissionId: null,
+    items: []
+  });
+
   useEffect(() => {
     if (!isOpen || !internalPatientId) return;
+
+    if (fetchedRef.current.id === internalPatientId && fetchedRef.current.submissionId === submissionId && fetchedRef.current.items.length > 0) {
+      setItems(fetchedRef.current.items);
+      return;
+    }
 
     const controller = new AbortController();
     setLoading(true);
@@ -44,6 +55,7 @@ export default function HistoryDrawer({ isOpen, onClose, internalPatientId, user
         if (!res.ok) throw new Error(payload.error || "Erro ao carregar histórico.");
 
         setItems(payload.items ?? []);
+        fetchedRef.current = { id: internalPatientId, submissionId: submissionId, items: payload.items ?? [] };
         setError(null);
       } catch (err: unknown) {
         if (err instanceof Error && err.name === "AbortError") return;

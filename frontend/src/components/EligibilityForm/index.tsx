@@ -61,8 +61,8 @@ export default function EligibilityForm() {
 
   const totalScore = sumEligibilityScore(scores);
   
-  const liveBreakdown = decision ? buildEligibilityBreakdown(scores) : null;
-  const liveNarrative = liveBreakdown ? getEligibilityNarrative(totalScore, liveBreakdown) : null;
+  const sessionBreakdown = decision ? buildEligibilityBreakdown(scores) : null;
+  const sessionNarrative = sessionBreakdown ? getEligibilityNarrative(totalScore, sessionBreakdown) : null;
 
   useEffect(() => {
     const services = getFirebaseClientServices();
@@ -209,8 +209,8 @@ export default function EligibilityForm() {
           errorMessage={errorMessage}
         />
 
-        {decision && liveNarrative && (
-          <ClinicalNarrative narrative={liveNarrative} />
+        {decision && sessionNarrative && (
+          <ClinicalNarrative narrative={sessionNarrative} />
         )}
 
         <footer className="mt-10 text-center text-otto-muted text-[0.9rem] border-t border-otto-border pt-4">
