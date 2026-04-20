@@ -79,7 +79,7 @@ export default function ReportGenerator() {
       
       <div className="flex items-center justify-between mb-6 border-b border-otto-border pb-4 no-print">
         <h1 className="text-otto-primary-dk font-bold text-2xl m-0">Gerador de Relatório Médico</h1>
-        <Link href="/hub" className="text-otto-primary font-semibold hover:underline">
+        <Link href="/" className="text-otto-primary font-semibold hover:underline">
           &larr; Voltar ao Hub
         </Link>
       </div>

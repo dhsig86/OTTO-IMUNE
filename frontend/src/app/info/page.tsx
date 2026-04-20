@@ -5,7 +5,7 @@ export default function InfoPage() {
     <div className="max-w-[800px] mx-auto my-8 p-5 md:p-8 bg-otto-surface rounded-xl shadow-[0_2px_12px_rgba(0,0,0,0.08)]">
       <div className="flex items-center justify-between mb-8 border-b border-otto-border pb-4">
         <h1 className="text-otto-primary-dk font-bold text-2xl m-0">Informações Clínicas (RSCcPN)</h1>
-        <Link href="/hub" className="text-otto-primary font-semibold hover:underline">
+        <Link href="/" className="text-otto-primary font-semibold hover:underline">
           &larr; Voltar ao Hub
         </Link>
       </div>
